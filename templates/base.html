@@ -78,12 +78,17 @@
               <li><a href="about.html">About</a></li>
               <li><a href="contact.html">Contact Us</a></li>
                 {% if user.is_authenticated %}
+                    {% if user.profile.role == 'buyer' %}
+                <li><a href="{% url 'listing:wishlist' %}"><i class="fa-solid fa-heart"></i></a></li>
+                    {% endif %}
+                {% endif %}
+                {% if user.is_authenticated %}
               <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
               <li>
           <div class="d-flex align-items-center ">
   <a href="#" class="d-inline-flex align-items-center justify-content-center text-white text-decoration-none"
      style="width: 40px; height: 40px; border-radius: 8px; background-color: #6F6FA2;">
-    <i class="bi bi-person-fill"></i>
+                <i class="bi bi-person-fill"></i>
   </a>
   <span class="ms-2 text-white">{{user.first_name}}-({{user.profile.role}})</span>
 </div>

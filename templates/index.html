@@ -24,13 +24,14 @@
               Easiest way to find your dream home
             </h1>
             <form
-              action="#"
+              action="{% url 'listing:search' %}"
               class="narrow-w form-search d-flex align-items-stretch mb-3"
               data-aos="fade-up"
               data-aos-delay="200"
             >
               <input
                 type="text"
+                name="q"
                 class="form-control px-4"
                 placeholder="Your ZIP code or City. e.g. New York"
               />
@@ -149,10 +150,9 @@
               <span class="flaticon-house-3"></span>
               <h3 class="mb-3">Real Estate Agent</h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptates, accusamus.
+                Connect with trusted professionals ready to guide you through buying or selling your property.
               </p>
-              <p><a href="#" class="learn-more">Learn More</a></p>
+              <p><a href="{% url 'listing:agents' %}" class="learn-more">Learn More</a></p>
             </div>
           </div>
           <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="600">
@@ -160,8 +160,10 @@
               <span class="flaticon-house-1"></span>
               <h3 class="mb-3">House for Sale</h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptates, accusamus.
+                Discover spacious houses designed to fit your lifestyle.
+          Browse through our curated listings.
+
+
               </p>
               <p><a href="{% url 'listing:houseforsale' %}" class="learn-more">Learn More</a></p>
             </div>

@@ -53,7 +53,16 @@
             <p class="text-black-50">
               {{property.description}}
             </p>
-
+            {% if user.profile.role == 'buyer' %}
+            {% if in_wishlist %}
+              <a href="{% url 'listing:removewishlist' property.id %}" class="btn btn-primary">Remove from Wishlist&nbsp<i class="fa-solid fa-heart-crack text-danger"></i></a>
+            {% else %}
+                <a href="{% url 'listing:addwishlist' property.id %}" class="btn btn-primary">Add to Wishlist&nbsp<i class="fa-solid fa-heart text-danger"></i></a>
+            {% endif %}
+            {% else %}
+            <a type="button" href="{% url 'listing:editproperty' property.id %}" style="padding: 4px 8px; font-size: 14px;" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'listing:deleteproperty' property.id %}" class="btn btn-danger" style="padding: 4px 8px; font-size: 14px;">Delete</a>
+            {% endif %}
             <div class="d-block agent-box p-5">
               <div class="img mb-4">
                 <img

@@ -1,8 +1,11 @@
 from django.shortcuts import render,redirect
 from django.views import View
 from listing.forms import AddPropertyForm
-from listing.models import Property
-
+from listing.models import Property,Wishlist
+from accounts.models import Profile
+from django.db.models import Q
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class IndexView(View):
@@ -20,7 +23,10 @@ class PropertyListView(View):
 class PropertyDetailView(View):
     def get(self, request,pk):
         p=Property.objects.get(id=pk)
-        context = {'property': p}
+        in_wishlist = False
+        if request.user.is_authenticated:
+            in_wishlist = Wishlist.objects.filter(user=request.user, property=p).exists()
+        context = {'property': p,'in_wishlist': in_wishlist}
         return render(request, 'propertydetail.html',context)
 
 class PropertyForSaleView(View):
@@ -71,6 +77,12 @@ class PlotForRentView(View):
         context = {'property': ps}
         return render(request, 'plotforrent.html',context)
 
+class AgentView(View):
+    def get(self, request):
+        a = Profile.objects.all()
+        context = {'profile': a}
+        return render(request, 'agent.html',context)
+
 class AddPropertyView(View):
     def get(self, request):
         form_instance = AddPropertyForm()
@@ -102,3 +114,39 @@ class DeletePropertyView(View):
         p=Property.objects.get(id=i)
         p.delete()
         return redirect('index')
+
+class SearchView(View):
+    def get(self, request):
+        query = request.GET['q']  # Reads the keyword
+        print(query)
+        # ORM query to filter records from the table
+        b = Property.objects.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(price__icontains=query) | Q(
+            location__icontains=query) | Q(property_type__icontains=query) | Q(requirement__icontains=query))  # __icontains-lookups
+        print(b)
+        context = {'p': b,'query': query}
+        return render(request, 'search.html',context)
+
+
+@method_decorator(login_required, name='dispatch')
+class AddWishlistView(View):
+    def get(self, request,i):
+        p=Property.objects.get(id=i)
+        u=request.user
+        c = Wishlist.objects.create(user=u,property=p)
+        c.save()
+        return redirect('listing:wishlist')
+
+class WishlistView(View):
+    def get(self, request):
+        u=request.user
+        c=Wishlist.objects.filter(user=u)
+        print(c)
+        context = {'wish':c}
+        return render(request, 'wishlist.html',context)
+
+class RemoveWishlist(View):
+    def get(self, request,i):
+        p=Property.objects.get(id=i)
+        w=Wishlist.objects.filter(user=request.user, property=p)
+        w.delete()
+        return redirect('listing:wishlist')

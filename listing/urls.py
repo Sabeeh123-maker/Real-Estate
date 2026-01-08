@@ -16,5 +16,10 @@ urlpatterns = [
     path('addproperty',views.AddPropertyView.as_view(),name='addproperty'),
     path('editproperty/<int:i>',views.EditPropertyView.as_view(),name='editproperty'),
     path('deleteproperty/<int:i>',views.DeletePropertyView.as_view(),name='deleteproperty'),
+    path('agents',views.AgentView.as_view(),name='agents'),
+    path('search',views.SearchView.as_view(),name='search'),
+    path('addwishlist/<int:i>',views.AddWishlistView.as_view(),name='addwishlist'),
+    path('wishlist',views.WishlistView.as_view(),name='wishlist'),
+    path('removewishlist/<int:i>',views.RemoveWishlist.as_view(),name='removewishlist'),
 
 ]
