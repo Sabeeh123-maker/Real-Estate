@@ -150,3 +150,9 @@ class RemoveWishlist(View):
         w=Wishlist.objects.filter(user=request.user, property=p)
         w.delete()
         return redirect('listing:wishlist')
+
+class MyPropertyView(View):
+    def get(self, request):
+        props = Property.objects.filter(owner=request.user)
+        context = {'property': props}
+        return render(request, 'myproperty.html',context)

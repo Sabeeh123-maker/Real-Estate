@@ -21,5 +21,6 @@ urlpatterns = [
     path('addwishlist/<int:i>',views.AddWishlistView.as_view(),name='addwishlist'),
     path('wishlist',views.WishlistView.as_view(),name='wishlist'),
     path('removewishlist/<int:i>',views.RemoveWishlist.as_view(),name='removewishlist'),
+    path('myproperty',views.MyPropertyView.as_view(),name='myproperty'),
 
 ]
