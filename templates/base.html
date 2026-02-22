@@ -128,6 +128,63 @@
   color: #fff;
   text-decoration: none;
 }
+          .property-item {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  }
+
+  .property-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .img-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .img-container img {
+    transition: transform 0.5s ease;
+  }
+
+  .property-item:hover .img-container img {
+    transform: scale(1.1);
+  }
+
+  .price-tag {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: rgba(0, 32, 74, 0.85); /* Dark blue glass effect */
+    backdrop-filter: blur(5px);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 700;
+    z-index: 2;
+  }
+
+  .property-specs {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #777;
+  }
+.wake-btn {
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wake-btn:hover {
+  transform: scale(1.05); /* Slight zoom */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Glow effect */
+}
       </style>
   </head>
 <body>
@@ -248,7 +305,7 @@
 
       <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
         <div class="widget">
-          <h3>Quick Links</h3>
+          <h3 class="text-light">Quick Links</h3>
           <ul class="list-unstyled links">
             <li><a href="#">Home</a></li>
             <li><a href="#">About Us</a></li>
@@ -261,7 +318,7 @@
 
       <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
         <div class="widget">
-          <h3>Properties</h3>
+          <h3 class="text-light">Properties</h3>
           <ul class="list-unstyled links">
             <li><a href="#">Residential</a></li>
             <li><a href="#">Commercial</a></li>
@@ -274,13 +331,13 @@
 
       <div class="col-lg-4 mb-5 mb-lg-0">
         <div class="widget">
-          <h3>Contact Us</h3>
+          <h3 class="text-light">Contact Us</h3>
           <address class="contact-address">
-            43 Raymouth Rd. Baltemoer,<br> London 3910
+            Nilambur Road,&nbsp;Edavanna<br>Malappuram,&nbsp;Kerala
           </address>
           <ul class="list-unstyled contact-details">
-            <li><a href="tel://11234567890">+1(123)-456-7890</a></li>
-            <li><a href="mailto:info@landsonhand.com">info@landsonhand.com</a></li>
+            <li><a href="tel://99539448229">+91 9539448229</a></li>
+            <li><a href="mailto:landonhand3@gmail.com">landonhand3@gmail.com</a></li>
           </ul>
 
           <div class="newsletter-box mt-4">
@@ -294,14 +351,9 @@
       </div>
     </div>
 
-    <div class="row mt-5 pt-4 border-top border-secondary">
-      <div class="col-md-6 text-center text-md-start">
+      <div class="text-center mt-5 pt-4 border-top border-secondary">
         <p class="copyright">Copyright &copy; <script>document.write(new Date().getFullYear());</script> LandsOnHand. All Rights Reserved.</p>
       </div>
-      <div class="col-md-6 text-center text-md-end">
-        <p class="credits">Designed by <a href="https://untree.co">Untree.co</a> | Distributed by <a href="https://themewagon.com/">ThemeWagon</a></p>
-      </div>
-    </div>
   </div>
 </footer>
 <!--footer-->

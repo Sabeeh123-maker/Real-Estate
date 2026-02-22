@@ -107,7 +107,7 @@ class EditPropertyView(View):
         return render(request,'editproperty.html',context)
     def post(self, request,i):
         p=Property.objects.get(id=i)
-        form_instance = AddPropertyForm(request.POST,instance=p)
+        form_instance = AddPropertyForm(request.POST,request.FILES,instance=p)
         if form_instance.is_valid():
             form_instance.save()
             return redirect('index')
