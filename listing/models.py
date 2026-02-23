@@ -15,7 +15,7 @@ class Property(models.Model):
     ]
     title = models.CharField(max_length=100)
     description = models.TextField()
-    price = models.DecimalField(decimal_places=2, max_digits=10)
+    price = models.IntegerField()
     location = models.CharField(max_length=100)
     property_type = models.CharField(max_length=10, choices=PROPERTY_TYPES)
     requirement=models.CharField(choices=REQUIREMENT_TYPES)
@@ -27,7 +27,6 @@ class Property(models.Model):
 
 class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='wishlist')
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -45,5 +44,16 @@ class Enquiry(models.Model):
     status = models.CharField(choices=status_choices, default='pending', max_length=10)
     visiting_date = models.DateTimeField(null=True, blank=True)
     agent_response = models.TextField(null=True, blank=True)
+    buyer_visited=models.BooleanField(default=False)
     def __str__(self):
         return f"{self.property.title} - {self.status}"
+
+class Payment(models.Model):
+    enquiry = models.ForeignKey(Enquiry, on_delete=models.CASCADE,null=True)
+    razorpay_order_id = models.CharField(max_length=100, unique=True)
+    razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
+    razorpay_signature = models.CharField(max_length=255, blank=True, null=True)
+    amount = models.IntegerField()
+    paid_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
+    status = models.CharField(max_length=50, default='Created')  # Created, Success, Failed
+    created_at = models.DateTimeField(auto_now_add=True)

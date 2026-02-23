@@ -28,5 +28,9 @@ urlpatterns = [
     path('buyerenquiries',views.BuyerEnquiryView.as_view(),name='buyerenquiries'),
     path('enquiryaccept/<int:i>',views.EnquiryAcceptedView.as_view(),name='enquiryaccept'),
     path('enquiryreject/<int:i>',views.EnquiryRejectedView.as_view(),name='enquiryreject'),
+    path('buyervisited/<int:i>',views.BuyerVisitedView.as_view(),name='buyervisited'),
+    path('advancepayment/<int:i>',views.AdvancePaymentView.as_view(),name='advancepayment'),
+    path('paymentsuccess',views.PaymentSuccessView.as_view(),name='paymentsuccess'),
+    path('paymentfailure',views.PaymentFailureView.as_view(),name='paymentfailure'),
 
 ]

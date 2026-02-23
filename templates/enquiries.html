@@ -18,9 +18,9 @@
     </div>
 
 
-<div class="container my-5 d-flex">
+<div class="row my-5 d-flex" style="margin-left:150px;">
 {% for i in enquiries %}
-<div class="card me-3" style="width: 18rem;">
+<div class="card me-3 col-md-3 mb-5" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">{{i.property.title}}</h5>
     <h6 class="card-subtitle mb-2 text-muted">{{i.buyer.username}}</h6>
@@ -28,7 +28,14 @@
     <small class="card-text">{{i.date_added}}</small>
     <div class="my-3 me-3">
       {% if i.status == 'accepted' %}
-      <span class="badge bg-secondary" style="padding:10px 15px">Accepted</span>
+      <div class="d-flex justify-content-center">
+      <span class="badge bg-secondary mx-auto" style="padding:10px 15px">Accepted</span>
+        </div>
+      {% if i.buyer_visited == True %}
+      <a class="badge my-3 text-light bg-secondary" style="padding:10px 60px;">Marked Buyer Visited</a>
+      {% else %}
+      <a href="{% url 'listing:buyervisited' i.id %}" class="badge my-3 text-light" style="background-color:#2f2f82;padding:10px 60px;">Mark as Buyer Visited</a>
+      {% endif %}
       {% elif i.status == 'rejected' %}
       <span class="badge" style="padding:10px 15px;background-color:red;">Rejected</span>
       {% else %}

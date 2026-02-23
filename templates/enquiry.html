@@ -34,7 +34,7 @@
 
     <!-- End All Title Box -->
 <div class="border border-dark my-5 w-50 p-5 mx-auto">
-<h1 class="text-center ">Enquiry</h1>
+<h1 class="text-center mb-5">Enquiry on {{property.title}}</h1>
     <form method="post">
         {% csrf_token%}
         {{form|crispy}}

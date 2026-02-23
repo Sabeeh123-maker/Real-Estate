@@ -2,12 +2,13 @@ from django.core.mail import send_mail
 from django.shortcuts import render,redirect
 from django.views import View
 from listing.forms import AddPropertyForm,EnquiryForm,EnquiryAcceptedForm,EnquiryRejectedForm
-from listing.models import Property,Wishlist,Enquiry
+from listing.models import Property,Wishlist,Enquiry,Payment
 from accounts.models import Profile
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
+import razorpay
 
 
 # Create your views here.
@@ -164,7 +165,7 @@ class EnquiryView(View):
     def get(self, request,i):
         p=Property.objects.get(id=i)
         form = EnquiryForm()
-        context = {'form': form}
+        context = {'form': form,'property': p}
         return render(request, 'enquiry.html',context)
     def post(self, request,i):
         p=Property.objects.get(id=i)
@@ -253,9 +254,68 @@ class EnquiryRejectedView(View):
             )
             return redirect('listing:enquiries')
 
+class BuyerVisitedView(View):
+    def get(self, request,i):
+        e=Enquiry.objects.get(id=i)
+        e.buyer_visited=True
+        e.save()
+        return redirect('listing:enquiries')
+
+class AdvancePaymentView(View):
+    def get(self, request,i):
+        e=Enquiry.objects.get(id=i)
+        a=e.property.price
+        amount=0.1*a
+        client = razorpay.Client(auth=('rzp_test_Rn853YhSiRl2l7', 'UpKFAcdCLWN1ph277XjeDNcH'))
+        order=client.order.create({'amount':amount*100,'currency':'INR'})
+        print(order)
+        p=Payment.objects.create(enquiry=e,razorpay_order_id=order['id'],amount=amount,status='Created')
+        print(p)
+        context = {'payment':order}
+        return render(request,'payment.html',context)
 
 
+class PaymentSuccessView(View):
+    # def get(self, request):
+    #     return render(request, 'paymentsuccess.html')
+    def post(self, request):
+        client = razorpay.Client(auth=('rzp_test_Rn853YhSiRl2l7', 'UpKFAcdCLWN1ph277XjeDNcH'))
+        print(request.user.username)
+        print(request.POST)
+        data=request.POST
+        data_dict={'razorpay_order_id': data.get('razorpay_order_id'),
+            'razorpay_payment_id': data.get('razorpay_payment_id'),
+            'razorpay_signature': data.get('razorpay_signature')
+            }
+        try:
+            client.utility.verify_payment_signature(data_dict)
+            p=Payment.objects.get(razorpay_order_id=data_dict['razorpay_order_id'])
+            p.razorpay_payment_id=data_dict['razorpay_payment_id']
+            p.razorpay_signature=data_dict['razorpay_signature']
+            p.paid_by=request.user
+            p.status='Success'
+            p.save()
+            p.enquiry.property.is_available=False
+            p.enquiry.property.save()
+            send_mail(
+                subject="Your Advance amount has been successfully paid",
+                message=f"Dear {p.paid_by.username},\n\n"
+                        f"Your Advance Amount for {p.enquiry.property.title} has been paid successfully.\n\n"
+                        f"Your Payment id: {p.razorpay_payment_id}",
+                from_email=None,
+                recipient_list=[p.paid_by.email],
+                fail_silently=False,
+            )
 
+            return render(request,'paymentsuccess.html')
+        except:
+            p=Payment.objects.get(razorpay_order_id=data_dict['razorpay_order_id'])
+            p.status='Failed'
+            return redirect('listing:paymentfailure')
+
+class PaymentFailureView(View):
+    def get(self, request):
+        return render(request,'paymentfailure.html')
 
 
 
