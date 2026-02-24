@@ -293,7 +293,7 @@ class PaymentSuccessView(View):
             p.razorpay_payment_id=data_dict['razorpay_payment_id']
             p.razorpay_signature=data_dict['razorpay_signature']
             p.paid_by=request.user
-            p.status='Success'
+            p.status='success'
             p.save()
             p.enquiry.property.is_available=False
             p.enquiry.property.save()
@@ -310,7 +310,7 @@ class PaymentSuccessView(View):
             return render(request,'paymentsuccess.html')
         except:
             p=Payment.objects.get(razorpay_order_id=data_dict['razorpay_order_id'])
-            p.status='Failed'
+            p.status='failed'
             return redirect('listing:paymentfailure')
 
 class PaymentFailureView(View):

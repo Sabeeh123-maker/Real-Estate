@@ -13,6 +13,9 @@
                     <p class="card-text"><b>{{i.property_type|title}}</b>&mdash;<span class="badge rounded-pill bg-warning">{{i.requirement|title}}</span></p>
                     {% endif %}
                     <a href="{% url 'listing:propertydetail' i.id %}" class="btn text-light" style="background-color:#003755;">See details</a>
+                      {% if i.is_available == False %}
+                      <span class="badge bg-danger justify-content-end">Sold</span>
+                      {% endif %}
 <!--                      {% if user.is_authenticated %}-->
 <!--                      {% if user.profile.role == 'agent' %}-->
 <!--                    <a type="button" href="{% url 'listing:editproperty' i.id %}" style="padding: 4px 8px; font-size: 14px;" class="btn btn-warning">Edit</a>-->

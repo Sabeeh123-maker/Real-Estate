@@ -3,21 +3,21 @@
 <div class="container my-5 d-flex" >
 {% for i in be %}
     {% if i.status == 'accepted' or i.status == 'pending' %}
-<div class="card me-3" style="width: 18rem;margin-top:150px;">
-  <div class="card-body">
-    <h5 class="card-title">{{i.property.title}}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">{{i.property.owner}}</h6>
-    <div class="my-3 me-3">
+      <div class="card me-3" style="width: 18rem;margin-top:150px;">
+      <div class="card-body">
+        <h5 class="card-title">{{i.property.title}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{i.property.owner}}</h6>
+      <div class="my-3 me-3">
       {% if i.status == 'accepted' %}
         {% if i.buyer_visited == True %}
-          <span class="badge bg-secondary" style="padding:10px 15px;font-size:13px;">Accepted</span>
-          <h6 class="card-subtitle my-2 text-muted" style="font-size:13px">Agent have marked you have visited.what's your opinion,are you interested?</h6>
-      <a href="{% url  'listing:advancepayment' i.id %}" class="btn text-light my-3" style="background-color:green;padding:4px 8px;font-size:14px;">Interested.pay advance.<i class="fa-regular fa-circle-check"></i></a><br>
-      <a href="#" class="btn btn-danger" style="padding:4px 8px;font-size:14px;">No,I'm not Interested<i class="fa-solid fa-circle-xmark"></i></a>
+            <span class="badge bg-secondary" style="padding:10px 15px;font-size:13px;">Accepted</span>
+            <h6 class="card-subtitle my-2 text-muted" style="font-size:13px">Agent have marked you have visited.what's your opinion,are you interested?</h6>
+            <a href="{% url  'listing:advancepayment' i.id %}" class="btn text-light my-3" style="background-color:green;padding:4px 8px;font-size:14px;">Interested.pay advance.<i class="fa-regular fa-circle-check"></i></a><br>
+            <a href="#" class="btn btn-danger" style="padding:4px 8px;font-size:14px;">No,I'm not Interested<i class="fa-solid fa-circle-xmark"></i></a>
         {% else %}
-      <span class="badge bg-secondary" style="padding:10px 15px;font-size:13px;">Accepted</span>
-        <h6 class="card-subtitle my-2 text-muted">{{i.agent_response}}</h6>
-        <h6 class="card-subtitle my-2 text-muted" style="font-size:13px">Visiting-Date: {{i.visiting_date}}</h6>
+          <span class="badge bg-secondary" style="padding:10px 15px;font-size:13px;">Accepted</span>
+          <h6 class="card-subtitle my-2 text-muted">{{i.agent_response}}</h6>
+          <h6 class="card-subtitle my-2 text-muted" style="font-size:13px">Visiting-Date: {{i.visiting_date}}</h6>
         {% endif %}
       {% else %}
       <span class="badge" style="padding:10px 10px;background-color:#d9a109;font-size:13px;"><i class="fa-regular fa-clock me-1"></i>Pending</span>

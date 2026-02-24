@@ -49,11 +49,15 @@ class Enquiry(models.Model):
         return f"{self.property.title} - {self.status}"
 
 class Payment(models.Model):
-    enquiry = models.ForeignKey(Enquiry, on_delete=models.CASCADE,null=True)
+    enquiry = models.ForeignKey(Enquiry, on_delete=models.CASCADE,null=True,related_name='payment')
     razorpay_order_id = models.CharField(max_length=100, unique=True)
     razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)
     razorpay_signature = models.CharField(max_length=255, blank=True, null=True)
     amount = models.IntegerField()
     paid_by = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
-    status = models.CharField(max_length=50, default='Created')  # Created, Success, Failed
+    status_choices = [
+        ('created', 'Created'),
+        ('success', 'Success'),
+        ('failed', 'Failed'),]
+    status = models.CharField(max_length=10,choices=status_choices, default='created')
     created_at = models.DateTimeField(auto_now_add=True)
