@@ -234,8 +234,7 @@
                 <li><a href="{% url 'listing:enquiries' %}">Enquiries</a></li>
                     {% endif %}
                 {% endif %}
-              <li><a href="about.html">About</a></li>
-              <li><a href="contact.html">Contact Us</a></li>
+
                 {% if user.is_authenticated %}
                     {% if user.profile.role == 'buyer' %}
                 <li><a href="{% url 'listing:wishlist' %}"><i class="fa-solid fa-heart"></i></a></li>
@@ -243,6 +242,7 @@
                     {% endif %}
                 {% endif %}
                 {% if user.is_authenticated %}
+                <li><a href="{% url 'accounts:contact' %}">Contact Us</a></li>
               <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
               <li>
           <div class="d-flex align-items-center ">

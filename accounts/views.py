@@ -11,6 +11,8 @@ from django.core.mail import send_mail
 
 from listing.models import Property, Enquiry
 
+from accounts.models import Contact
+
 
 # Create your views here.
 #admin-page:
@@ -181,3 +183,24 @@ class Logoutview(View):
     def get(self, request):
         logout(request)
         return redirect('accounts:login')
+
+
+class ContactUsView(View):
+    def get(self, request):
+        return render(request,'contact.html')
+    def post(self, request):
+        name=request.POST['name']
+        email=request.POST['email']
+        sub=request.POST['sub']
+        msg=request.POST['msg']
+        e=Contact.objects.create(user=request.user,name=name,email=email,subject=sub,message=msg)
+        e.save()
+        send_mail(
+            subject=f"{e.subject}",  # f-string ensures it's a string
+            message=f"{e.message}",  # same here
+            from_email=e.user.email,  # pass directly, no {}
+            recipient_list=['landonhand3@gmail.com'],
+            fail_silently=False,
+        )
+        return redirect('index')
+

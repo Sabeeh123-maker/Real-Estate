@@ -32,6 +32,17 @@ class EmailOTP(models.Model):
         self.code = otp
         self.save()
 
+class Contact(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    subject = models.CharField(max_length=100)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.name
+
+
 # from django.db.models.signals import post_save
 # from django.dispatch import receiver
 #
@@ -40,3 +51,4 @@ class EmailOTP(models.Model):
 #     if created:
 #         Profile.objects.create(user=instance)
 #     instance.profile.save()
+

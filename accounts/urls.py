@@ -8,6 +8,7 @@ from accounts.views import PropertyManagementView
 from accounts.views import BuyermanagementView
 from accounts.views import ToggleBuyerView
 from accounts.views import EnquiryManagementView
+from accounts.views import ContactUsView
 
 app_name = 'accounts'
 urlpatterns = [
@@ -16,6 +17,7 @@ urlpatterns = [
     path('otpverification/', OtpVerificationView.as_view(), name='otpverification'),
     path('register/', Registerview.as_view(), name='register'),
     path('logout/', Logoutview.as_view(), name='logout'),
+    path('contact/', ContactUsView.as_view(), name='contact'),
     #admin page urls:-
     path('admin-dashboard/', AdminDashboardView.as_view(), name='admin_dashboard'),
     path('propertymanagement/',PropertyManagementView.as_view(), name='propertymanagement'),
