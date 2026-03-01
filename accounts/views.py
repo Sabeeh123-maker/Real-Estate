@@ -112,6 +112,10 @@ class Registerview(View):
             profile.save()
             print(profile)
             return redirect('accounts:login')
+        else:
+            messages.error(request, "error, check your username and password")
+            context = {'registerform': user_form, 'profileform': profile_form}
+            return render(request,'register.html',context)
 
 class Loginview(View):
     def get(self, request):
@@ -158,6 +162,9 @@ class LoginViaOtp(View):
                 fail_silently=False,
             )
             u.save()
+            e=u.user.email
+            me=e[0:2]+'******'+e[-9:]
+            messages.success(request,f'Email has been sent to {me} successfully!')
             return redirect('accounts:otpverification')
 
 class OtpVerificationView(View):
