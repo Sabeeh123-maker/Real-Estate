@@ -31,7 +31,7 @@ class Wishlist(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
 class Enquiry(models.Model):
-    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE,related_name='enquiry')
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(default='eg@example.com')
     phone_number = models.CharField(max_length=11,default='00000')
@@ -45,8 +45,12 @@ class Enquiry(models.Model):
     visiting_date = models.DateTimeField(null=True, blank=True)
     agent_response = models.TextField(null=True, blank=True)
     buyer_visited=models.BooleanField(default=False)
+    buyer_rejected=models.BooleanField(default=False)
     def __str__(self):
         return f"{self.property.title} - {self.status}"
+
+    def is_advance_paid(self):
+        return self.payment.filter(status='success').exists()
 
 class Payment(models.Model):
     enquiry = models.ForeignKey(Enquiry, on_delete=models.CASCADE,null=True,related_name='payment')

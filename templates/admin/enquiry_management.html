@@ -10,6 +10,7 @@
                             <tr class="small text-uppercase text-muted">
                                 <th>Buyer</th>
                                 <th>Enquiry For</th>
+                                <th>Agent</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th class="text-end">Management</th>
@@ -20,6 +21,7 @@
                             <tr>
                                 <td><span class="fw-medium">{{ enquiry.buyer.username }}</span></td>
                                 <td>{{ enquiry.property.title }}</td>
+                                <td>{{ enquiry.property.owner }}</td>
                                 <td>{{ enquiry.date_added|date:"M d, Y" }}</td>
                                 <td>
                                     <span class="badge rounded-pill badge-status

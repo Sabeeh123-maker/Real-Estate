@@ -9,6 +9,7 @@ from accounts.views import BuyermanagementView
 from accounts.views import ToggleBuyerView
 from accounts.views import EnquiryManagementView
 from accounts.views import ContactUsView
+from accounts.views import MessagesManagementView
 
 app_name = 'accounts'
 urlpatterns = [
@@ -26,4 +27,5 @@ urlpatterns = [
     path('buyermanagement/',BuyermanagementView.as_view(), name='buyermanagement'),
     path('togglebuyer/<int:i>',ToggleBuyerView.as_view(), name='togglebuyer'),
     path('enquirymanagement/',EnquiryManagementView.as_view(), name='enquirymanagement'),
+    path('messagesmanagement/',MessagesManagementView.as_view(), name='messagesmanagement'),
 ]

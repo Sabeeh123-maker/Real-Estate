@@ -27,20 +27,29 @@
     <p class="card-text">{{i.message}}</p>
     <small class="card-text">{{i.date_added}}</small>
     <div class="my-3 me-3">
+      {% if i.is_advance_paid %}
+            <span class="badge bg-success px-3 py-2">Advance Paid</span>
+            <h6 class="mt-2 text-success">Buyer has paid the advance<i class="fa-solid fa-circle-check"></i>.</h6>
+      {% else %}
       {% if i.status == 'accepted' %}
       <div class="d-flex justify-content-center">
       <span class="badge bg-secondary mx-auto" style="padding:10px 15px">Accepted</span>
         </div>
-      {% if i.buyer_visited == True %}
-      <a class="badge my-3 text-light bg-secondary" style="padding:10px 60px;">Marked Buyer Visited</a>
-      {% else %}
-      <a href="{% url 'listing:buyervisited' i.id %}" class="badge my-3 text-light" style="background-color:#2f2f82;padding:10px 60px;">Mark as Buyer Visited</a>
-      {% endif %}
+        {% if i.buyer_visited == True %}
+          {% if i.buyer_rejected == False %}
+          <a class="badge my-3 text-light bg-secondary" style="padding:10px 60px;">Payment request sent</a>
+          {% else %}
+          <a class="badge my-3 text-light bg-danger" style="padding:10px 20px;">Buyer Rejected for the payment</a>
+          {% endif %}
+        {% else %}
+          <a href="{% url 'listing:buyervisited' i.id %}" class="badge my-3 text-light" style="background-color:#383632;padding:10px 60px;">Mark as Buyer Visited</a>
+        {% endif %}
       {% elif i.status == 'rejected' %}
       <span class="badge" style="padding:10px 15px;background-color:red;">Rejected</span>
       {% else %}
       <a href="{% url 'listing:enquiryaccept' i.id %}" class="btn btn-success me-3 fs-6" style="padding: 4px 8px; font-size: 14px;">Accept</a>
       <a href="{% url 'listing:enquiryreject' i.id %}" class="btn btn-danger fs-6" style="padding: 4px 8px; font-size: 14px;">Reject</a>
+      {% endif %}
       {% endif %}
     </div>
   </div>

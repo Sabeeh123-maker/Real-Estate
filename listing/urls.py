@@ -32,5 +32,7 @@ urlpatterns = [
     path('advancepayment/<int:i>',views.AdvancePaymentView.as_view(),name='advancepayment'),
     path('paymentsuccess',views.PaymentSuccessView.as_view(),name='paymentsuccess'),
     path('paymentfailure',views.PaymentFailureView.as_view(),name='paymentfailure'),
+    path('buyeradvanceproperties',views.BuyerAdvancedPropertiesView.as_view(),name='buyeradvanceproperties'),
+    path('buyerrejected<int:i>',views.BuyerRejectedView.as_view(),name='buyerrejected'),
 
 ]

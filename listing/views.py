@@ -121,11 +121,10 @@ class DeletePropertyView(View):
 
 class SearchView(View):
     def get(self, request):
-        query = request.GET['q']  # Reads the keyword
+        query = request.GET['q']
         print(query)
-        # ORM query to filter records from the table
         b = Property.objects.filter(Q(title__icontains=query) | Q(description__icontains=query) | Q(price__icontains=query) | Q(
-            location__icontains=query) | Q(property_type__icontains=query) | Q(requirement__icontains=query))  # __icontains-lookups
+            location__icontains=query) | Q(property_type__icontains=query) | Q(requirement__icontains=query))
         print(b)
         context = {'p': b,'query': query}
         return render(request, 'search.html',context)
@@ -194,13 +193,13 @@ class DeleteEnquiryView(View):
 @method_decorator(login_required, name='dispatch')
 class AgentEnquiryView(View):
     def get(self, request):
-        e=Enquiry.objects.filter(property__owner=request.user)
+        e=Enquiry.objects.filter(property__owner=request.user).order_by('status','-date_added')
         context = {'enquiries': e}
         return render(request, 'enquiries.html',context)
 
 class BuyerEnquiryView(View):
     def get(self, request):
-        be=Enquiry.objects.filter(buyer=request.user)
+        be=Enquiry.objects.filter(buyer=request.user,status__in=['pending','accepted'])
         context = {'be': be}
         return render(request, 'buyerenquirypage.html',context)
 
@@ -292,8 +291,8 @@ class PaymentSuccessView(View):
             p=Payment.objects.get(razorpay_order_id=data_dict['razorpay_order_id'])
             p.razorpay_payment_id=data_dict['razorpay_payment_id']
             p.razorpay_signature=data_dict['razorpay_signature']
+            p.status = 'success'
             p.paid_by=request.user
-            p.status='success'
             p.save()
             p.enquiry.property.is_available=False
             p.enquiry.property.save()
@@ -308,14 +307,28 @@ class PaymentSuccessView(View):
             )
 
             return render(request,'paymentsuccess.html')
-        except:
+        except razorpay.errors.SignatureVerificationError:
             p=Payment.objects.get(razorpay_order_id=data_dict['razorpay_order_id'])
             p.status='failed'
+            p.save()
             return redirect('listing:paymentfailure')
 
 class PaymentFailureView(View):
     def get(self, request):
         return render(request,'paymentfailure.html')
+
+class BuyerAdvancedPropertiesView(View):
+    def get(self, request):
+        p=Property.objects.filter(enquiry__payment__paid_by=request.user,enquiry__payment__status='success')
+        context={'p':p}
+        return render(request,'buyeradvanceproperties.html',context)
+
+class BuyerRejectedView(View):
+    def get(self, request,i):
+        e=Enquiry.objects.get(id=i)
+        e.buyer_rejected=True
+        e.save()
+        return redirect('index')
 
 
 

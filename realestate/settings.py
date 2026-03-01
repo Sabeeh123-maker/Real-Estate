@@ -82,7 +82,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'landonhand3@gmail.com'  # Your email address
 EMAIL_HOST_PASSWORD = 'cpjd rsrn icsk mflf '
 
-
+RAZORPAY_KEY_ID = 'rzp_test_Rn853YhSiRl2l7'
+RAZORPAY_KEY_SECRET = 'UpKFAcdCLWN1ph277XjeDNcH'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

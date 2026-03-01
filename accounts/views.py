@@ -84,6 +84,12 @@ class EnquiryManagementView(View):
         enquiries=Enquiry.objects.all()
         context={'enquiries': enquiries}
         return render(request,'admin/enquiry_management.html',context)
+
+class MessagesManagementView(View):
+    def get(self, request):
+        c=Contact.objects.all()
+        context={'messages': c}
+        return render(request,'admin/messages_management.html',context)
 #admin-page/>
 
 
