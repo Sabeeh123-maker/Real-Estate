@@ -10,7 +10,7 @@ from accounts.models import EmailOTP,Profile
 from django.core.mail import send_mail
 
 from listing.models import Property, Enquiry
-
+from django.contrib.auth.decorators import login_required
 from accounts.models import Contact
 
 
@@ -197,7 +197,7 @@ class Logoutview(View):
         logout(request)
         return redirect('accounts:login')
 
-
+@method_decorator(login_required, name='dispatch')
 class ContactUsView(View):
     def get(self, request):
         return render(request,'contact.html')
